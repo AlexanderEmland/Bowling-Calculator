@@ -9,15 +9,14 @@ import { BowlingService } from '../services/bowling.service';
 })
 export class ScoreboardComponent implements OnInit {
 
-  scores: IScore[];
+  // scores: IScore[];
 
-  constructor(bowlingService: BowlingService) {
-    this.scores = bowlingService.getScores();
-    console.log(this.scores);
+  constructor(private bowling: BowlingService) {
+    // this.scores = bowlingService.getScores();
+    // console.log(this.scores);
    }
 
   ngOnInit() {
-    console.log('jew');
   }
 
 }

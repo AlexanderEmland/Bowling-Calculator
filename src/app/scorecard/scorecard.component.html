@@ -1,8 +1,9 @@
 <div class="score-box">
-  <div class="number container">{{number}}</div>
+  <div class="number container">{{score.number}}</div>
   <div class="upper">
-    <div class="left-score container">8</div>
-    <div class="secondary-score container">/</div>
+    <div class="left-score container">{{score.state === scoreState.strike ? 'X': score.firstBall}}</div>
+    <div class="secondary-score container">{{score.state === scoreState.spare ? '/' : score.secondBall}}</div>
+    <div *ngIf="score.isLast" class="secondary-score container">{{score.thirdBall}}</div>
   </div>
-  <div class="lower container">10</div>
+  <div class="lower container">{{score.currentScore}}</div>
 </div>
