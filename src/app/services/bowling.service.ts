@@ -31,11 +31,12 @@ export class BowlingService {
       console.log('You can\'t hit that many pins this time');
       return;
     }
+    this.possiblePins.splice(0, pins);
     const currentScore: IScore = this.scores[this.scoreIndex];
 
     /*
     If the previous score resulted in a spare, add the first roll to that one's current score
-    If the two previous scores were strikes, and the current score is a strike
+    If the two previous scores were strikes, and the current score is a strike, add 10 two the first score
     */
 
     if (!currentScore.firstBall) { // Handle first normal score

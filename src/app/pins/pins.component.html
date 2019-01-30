@@ -1,5 +1,5 @@
 <p>It works</p>
 <ul class="pin-list">
   <li>test li</li>
-  <li *ngFor="let pin of pins"><button (click)="foo(pin)">{{pin}}</button></li>
+  <li *ngFor="let pin of bowling.getPossiblePins(); index as i"><button (click)="bowling.roll(pin)">{{i}}</button></li>
 </ul>

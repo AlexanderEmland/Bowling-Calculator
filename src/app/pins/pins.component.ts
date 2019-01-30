@@ -8,10 +8,7 @@ import { BowlingService } from '../services/bowling.service';
 })
 export class PinsComponent implements OnInit {
 
-  possiblePins: Array<true>;
-
   constructor(private bowling: BowlingService) {
-    this.possiblePins = bowling.getPossiblePins();
   }
 
   ngOnInit() {

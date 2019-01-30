@@ -1,0 +1,13 @@
+.pin-list{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    li{
+        button{
+            font-size: 1em;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+    }
+}
