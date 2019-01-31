@@ -10,4 +10,8 @@ export class MessageService {
   sendSpecial(message: string) {
     console.log('%c' + message, specialStyle);
   }
+
+  send(message: string){
+    console.log(message);
+  }
 }

@@ -56,69 +56,93 @@ export class BowlingService {
     /* Rules
     If the ball resulted in a strike, the score is 10 plus the score of the next two balls.
     If the ball resulted in a spare, the score is 10 plus the score of the next ball.
-    If your first ball in the 10th (last) frame results in a strike, you get two bonus balls.
-
+    If your first ball in the 10th (last) frame results in a strike or spare, you get a bonus ball.
     */
 
     /*** Handle rolls ***/
-    if (currentFrame.isLast) { // Last frame
+    if (currentFrame.isLast) { // LAST FRAME
       if (!currentFrame.firstBall.pins) {// First ball
         console.log("Throwing first ball in last frame");
-        
+
         if (ball.pins === 10) { // Strike
-          console.log('%c You got a strike! ', 'background: black; color: white; font-size: 1.2em; padding: 2px 0 2px 0;');
-          ball.state = BallState.strike;
-          //console.log(currentFrame.firstBall)
-          this.nextFrame();
-        }
-
-        currentFrame.firstBall = ball;
-
-      } else if (!currentFrame.secondBall) {
-
-      } else {
-
-      }
-    } else { // Normal frame
-      if (!currentFrame.firstBall.pins && currentFrame.firstBall.pins !== 0) { // First ball
-        console.log("Throwing first ball in frame " + (this.frameIndex+1));
-        
-        if (ball.pins === 10) { // Strike
-          //console.log('%c You got a strike! ', 'background: black; color: white; font-size: 1.2em; padding: 2px 0 2px 0;');
           this.messageService.sendSpecial("You got a strike!");
           ball.state = BallState.strike;
-          //console.log(currentFrame.firstBall)
+          this.resetPins();
+        }
+        currentFrame.firstBall = ball;
+
+      } else if (!currentFrame.secondBall.pins) { // Second ball
+        console.log("Throwing second ball in last frame");
+
+        if (prevBall.pins + ball.pins === 10 && prevBall.state != BallState.strike) { // Spare
+          this.messageService.sendSpecial("You got a spare!");
+          ball.state = BallState.spare;
+          this.resetPins();
+        }
+        else if (ball.pins === 10) { // Strike
+          this.messageService.sendSpecial("You got a strike!");
+          ball.state = BallState.strike;
+          this.resetPins();
+        }
+        currentFrame.secondBall = ball;
+
+      } else if (prevBall.state === BallState.spare || prevBall.state === BallState.strike) { // Third ball
+        console.log("Throwing third ball in last frame");
+
+        if (prevBall.pins + ball.pins === 10 && prevBall.state != BallState.strike) { // Spare
+          this.messageService.sendSpecial("You got a spare!");
+          ball.state = BallState.spare;
+          this.resetPins();
+        }
+        else if (ball.pins === 10) { // Strike
+          this.messageService.sendSpecial("You got a strike!");
+          ball.state = BallState.strike;
+          this.resetPins();
+        }
+        // if (ball.pins === 10) { // Strike
+        //   this.messageService.sendSpecial("You got a strike!");
+        //   ball.state = BallState.strike;
+        // }
+        currentFrame.thirdBall = ball;
+      }
+    }
+
+    else { // NORMAL FRAME
+      if (!currentFrame.firstBall.pins && currentFrame.firstBall.pins !== 0) { // First ball
+        console.log("Throwing first ball in frame " + (this.frameIndex + 1));
+
+        if (ball.pins === 10) { // Strike
+          this.messageService.sendSpecial("You got a strike!");
+          ball.state = BallState.strike;
           this.nextFrame();
         }
 
         currentFrame.firstBall = ball;
       } else { // Second ball
-        console.log("Throwing second ball in frame " + (this.frameIndex+1));
+        console.log("Throwing second ball in frame " + (this.frameIndex + 1));
 
         if (prevBall.pins + ball.pins === 10) { // Spare
-          console.log('%c You got a spare! ', 'background: black; color: white; font-size: 1.2em; padding: 2px 0 2px 0;');
-          
+          this.messageService.sendSpecial("You got a spare!");
           ball.state = BallState.spare;
         }
-
         this.nextFrame();
         currentFrame.secondBall = ball;
       }
     }
-  
     this.balls.push(ball);
+    console.log(this.balls.length);
   }
 
   private nextFrame(): void {
     console.log("Going to next frame");
-    
+
     this.frameIndex++;
     this.resetPins();
   }
 
   private resetPins(): void {
     console.log("Resetting pins");
-    
+
     this.possiblePins = [true, true, true, true, true, true, true, true, true, true, true];
   }
 
