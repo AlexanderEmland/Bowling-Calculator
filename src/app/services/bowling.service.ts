@@ -86,7 +86,7 @@ export class BowlingService {
         }
         currentFrame.secondBall = ball;
 
-      } else if (prevBall.state === BallState.spare || prevBall.state === BallState.strike) { // Third ball
+      } else if (!currentFrame.thirdBall.pins && (currentFrame.firstBall.state === BallState.strike || currentFrame.secondBall.state === BallState.strike || currentFrame.secondBall.state === BallState.spare)) { // Third ball
         console.log("Throwing third ball in last frame");
 
         if (prevBall.pins + ball.pins === 10 && prevBall.state != BallState.strike) { // Spare

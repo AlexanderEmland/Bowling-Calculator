@@ -1,12 +1,11 @@
 <div class="frame-box">
   <div class="number container">{{frame.number}}</div>
   <div *ngIf="!frame.isLast" class="upper">
-    <div class="left-score container">{{frame.firstBall.pins === 10 ? '' : frame.firstBall.pins}}</div>
-    <div class="secondary-score container">{{frame.firstBall.pins === 10 ? 'X' : frame.secondBall.state === ballState.spare ? '/' : frame.secondBall.pins}}</div>
-    <div *ngIf="frame.isLast" class="secondary-score container">{{frame.thirdBall ? '' : undefined}}</div> 
+    <div class="left-score container">{{frame.firstBall.state === ballState.strike ? '' : frame.firstBall.pins}}</div>
+    <div class="secondary-score container">{{frame.firstBall.state === ballState.strike ? 'X' : frame.secondBall.state === ballState.spare ? '/' : frame.secondBall.pins}}</div> 
   </div>
   <div *ngIf="frame.isLast" class="upper">
-    <div class="left-score container">{{frame.firstBall.pins === 10 ? 'X' : frame.firstBall.pins}}</div>
+    <div class="left-score container">{{frame.firstBall.state === ballState.strike ? 'X' : frame.firstBall.pins}}</div>
     <div class="secondary-score container">{{frame.secondBall.state === ballState.strike ? 'X' : frame.secondBall.state === ballState.spare ? '/': frame.secondBall.pins}}</div>
     <div class="secondary-score container">{{frame.thirdBall.state === ballState.strike ? 'X' : frame.thirdBall.state === ballState.spare ? '/': frame.thirdBall.pins}}</div> 
   </div>
