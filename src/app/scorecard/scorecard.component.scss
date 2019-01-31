@@ -1,7 +1,7 @@
 
 
 .frame-box{
-    background-color: rgb(253, 253, 189);
+    background-color: #fbfbae;
     width: 100px;
     height: 90px;
     outline: 1px black solid;
@@ -10,8 +10,8 @@
 
     .number{
         height: 70px;
-        background-color: rgb(233, 233, 233);
-        color: black;
+        background-color: #21a6ff;
+        color: white;
         border-bottom: 1px black solid;
     }
     .upper{
@@ -36,5 +36,5 @@
     }
 }
 .active{
-    background-color: aliceblue;
+    background-color: #d8edff;
 }

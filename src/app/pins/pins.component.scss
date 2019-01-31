@@ -2,12 +2,29 @@
     display: flex;
     flex-direction: row;
     list-style: none;
-    li{
-        button{
-            font-size: 1em;
+    
+    border: solid black;
+    border-width: 1px 1px 0 1px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+        .button{
             width: 30px;
             height: 30px;
-            margin-right: 10px;
+            background-color: #abd9ff;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 1em;
+            margin-right: 0px;
         }
-    }
+        .button:hover{
+            background-color: #84c4f8;
+            cursor: pointer;
+        }
+        .button:active{
+            background-color: #3da8ff;
+            cursor: pointer;
+        }
 }
