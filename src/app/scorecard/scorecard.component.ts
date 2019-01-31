@@ -13,10 +13,10 @@ export class ScorecardComponent implements OnInit {
   ballState = BallState;
 
   constructor() {
-    console.log(this.frame);
   }
 
   ngOnInit() {
+
   }
 
 }

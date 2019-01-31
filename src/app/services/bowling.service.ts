@@ -58,41 +58,53 @@ export class BowlingService {
     */
 
     /*** Handle rolls ***/
-    if (currentFrame.isLast) { // Last frame
-      if (!currentFrame.firstBall) {
+    // if (currentFrame.isLast) { // Last frame
+    //   if (!currentFrame.firstBall.pins) {
 
-      } else if (!currentFrame.secondBall) {
+    //   } else if (!currentFrame.secondBall) {
 
-      } else {
+    //   } else {
 
-      }
-    } else { // Normal frame
-      if (!currentFrame.firstBall) { // First ball
+    //   }
+    // } else { // Normal frame
+    //console.log(ball, prevBall)
+      if (!currentFrame.firstBall.pins) { // First ball
+        console.log("Throwing first ball in frame " + (this.frameIndex+1));
+        
         if (ball.pins === 10) { // Strike
-          // currentFrame.firstBall.state = BallState.strike;
+          console.log('%c You got a strike! ', 'background: red; color: yellow');
+
           ball.state = BallState.strike;
-          currentFrame.firstBall = ball;
+          //console.log(currentFrame.firstBall)
           this.nextFrame();
         }
+        currentFrame.firstBall = ball;
       } else { // Second ball
+        console.log("Throwing second ball in frame " + (this.frameIndex+1));
+
         if (prevBall.pins + ball.pins === 10) { // Spare
-          // currentFrame.secondBall.state = BallState.strike;
+          console.log('%c You got a spare! ', 'background: red; color: yellow');
+          
           ball.state = BallState.spare;
           currentFrame.secondBall = ball;
         }
         this.nextFrame();
       }
-    }
+    
+  
     this.balls.push(ball);
-    // console.log(currentFrame);
   }
 
   private nextFrame(): void {
+    console.log("Going to next frame");
+    
     this.frameIndex++;
     this.resetPins();
   }
 
   private resetPins(): void {
+    console.log("Resetting pins");
+    
     this.possiblePins = [true, true, true, true, true, true, true, true, true, true, true];
   }
 

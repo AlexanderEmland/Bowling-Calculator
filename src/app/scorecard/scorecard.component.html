@@ -1,9 +1,9 @@
 <div class="frame-box">
   <div class="number container">{{frame.number}}</div>
   <div class="upper">
-    <div class="left-score container">{{frame.firstBall && frame.firstBall.state === ballState.strike ? 'X': frame.firstBall.pins}}</div>
-    <div class="secondary-score container">{{frame.secondBall && frame.secondBall.state === ballState.spare ? '/' : frame.secondBall.pins}}</div>
-    <div *ngIf="frame.isLast" class="secondary-score container">{{frame.thirdBall}}</div>
+    <div class="left-score container">{{1}}</div>
+    <div class="secondary-score container">{{'/'}}</div>
+    <div *ngIf="frame.isLast" class="secondary-score container">{{frame.thirdBall ? 'X' : undefined}}</div> 
   </div>
-  <div class="lower container">{{score.currentScore}}</div>
+  <div class="lower container">{{20}}</div>
 </div>

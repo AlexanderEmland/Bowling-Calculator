@@ -3,7 +3,6 @@ export interface IFrame {
     firstBall?: IBall;
     secondBall?: IBall;
     thirdBall?: IBall; // Only for the last frame
-    // localValue?: number;
     score?: number;
     isLast: boolean;
 }
