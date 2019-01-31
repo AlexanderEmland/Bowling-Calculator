@@ -4,6 +4,7 @@ export interface IFrame {
     secondBall?: IBall;
     thirdBall?: IBall; // Only for the last frame
     score?: number;
+    calculated?: boolean;
     isLast: boolean;
 }
 

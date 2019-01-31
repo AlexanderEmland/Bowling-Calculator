@@ -1,3 +1,4 @@
 <ul class="pin-list">
   <li *ngFor="let pin of bowling.getPossiblePins(); index as i"><button (click)="bowling.roll(i)">{{i}}</button></li>
 </ul>
+<h2 *ngIf="bowling.getPossiblePins().length === 0">Game finished!</h2>

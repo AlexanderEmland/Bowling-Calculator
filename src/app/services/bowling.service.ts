@@ -39,8 +39,38 @@ export class BowlingService {
   private updateScores(): void {
     for (let i = 0; i < this.balls.length; i++) {
       const ball = this.balls[i];
+      const nextBall = this.balls[i + 1];
+      const secondNextBall = this.balls[i + 2];
+      const currentFrame = ball.frame;
+      const prevFrame = this.frames[this.frames.indexOf(currentFrame) - 1];
 
+      //if (!currentFrame.calculated) {
+        currentFrame.score = 0;
+      //} 
+      if (ball.state === BallState.strike && nextBall && secondNextBall) {
+        currentFrame.score += ball.pins + nextBall.pins + secondNextBall.pins;
+        currentFrame.calculated = true;
+      } else if (ball.state === BallState.spare && nextBall) {
+        currentFrame.score += ball.pins + nextBall.pins + currentFrame.firstBall.pins;
+        currentFrame.calculated = true;
+      } else {
+        //console.log("Rolled: " + ball.pins)
+        currentFrame.score += currentFrame.firstBall.pins + currentFrame.secondBall.pins;
+        if(currentFrame.thirdBall.pins){
+          currentFrame.score += currentFrame.thirdBall.pins;
+        }
+
+        if (currentFrame.secondBall.pins && currentFrame.secondBall.state != BallState.spare && !currentFrame.isLast) {
+          currentFrame.calculated = true;
+        }
+      }
+
+      if (prevFrame && prevFrame.score && currentFrame.score) {
+        currentFrame.score += prevFrame.score;
+      }
     }
+    console.log(this.frames);
+
   }
 
   roll(pins: number): void {
@@ -61,7 +91,7 @@ export class BowlingService {
 
     /*** Handle rolls ***/
     if (currentFrame.isLast) { // LAST FRAME
-      if (!currentFrame.firstBall.pins) {// First ball
+      if (!currentFrame.firstBall.pins && currentFrame.firstBall.pins !== 0) {// First ball
         console.log("Throwing first ball in last frame");
 
         if (ball.pins === 10) { // Strike
@@ -104,6 +134,7 @@ export class BowlingService {
         //   ball.state = BallState.strike;
         // }
         currentFrame.thirdBall = ball;
+        this.finishGame();
       }
     }
 
@@ -130,6 +161,7 @@ export class BowlingService {
       }
     }
     this.balls.push(ball);
+    this.updateScores();
     console.log(this.balls.length);
   }
 
@@ -144,6 +176,11 @@ export class BowlingService {
     console.log("Resetting pins");
 
     this.possiblePins = [true, true, true, true, true, true, true, true, true, true, true];
+  }
+
+  private finishGame(): void {
+    console.log("Game finished");
+    this.possiblePins = [];
   }
 
   getPossiblePins(): Array<true> {

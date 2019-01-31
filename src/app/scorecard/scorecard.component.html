@@ -9,5 +9,5 @@
     <div class="secondary-score container">{{frame.secondBall.state === ballState.strike ? 'X' : frame.secondBall.state === ballState.spare ? '/': frame.secondBall.pins}}</div>
     <div class="secondary-score container">{{frame.thirdBall.state === ballState.strike ? 'X' : frame.thirdBall.state === ballState.spare ? '/': frame.thirdBall.pins}}</div> 
   </div>
-  <div class="lower container">{{20}}</div>
+  <div class="lower container">{{frame.calculated ? frame.score : ''}}</div>
 </div>
