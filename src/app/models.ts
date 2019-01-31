@@ -1,12 +1,17 @@
-export interface IScore {
+export interface IFrame {
     number: number;
-    firstBall?: number;
-    secondBall?: number;
-    thirdBall?: number; // Only for the last score
-    localValue?: number;
+    firstBall?: IBall;
+    secondBall?: IBall;
+    thirdBall?: IBall; // Only for the last frame
+    // localValue?: number;
     score?: number;
-    state?: ScoreState;
     isLast: boolean;
 }
 
-export enum ScoreState {normal, spare , strike}
+export interface IBall {
+    pins: number;
+    frame: IFrame;
+    state: BallState;
+}
+
+export enum BallState {normal, spare , strike}

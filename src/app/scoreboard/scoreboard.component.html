@@ -1,12 +1,6 @@
 <div class="scoreboard">
-  <!-- <app-score-card *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [number]="i"></app-score-card> -->
-  <app-score-card *ngFor="let score of bowling.getScores()" [score]="score"></app-score-card>
-<!-- <div class="score-box">
-  <div class="upper">
-    <div class="left-score container">8</div>
-    <div class="secondary-score container">8</div>
-    <div class="secondary-score container">/</div>
-  </div>
-  <div class="lower container">10</div>
-</div> -->
+  <!-- <app-score-card *ngFor="let frame of frames" [frame]="frame">fghtd</app-score-card> -->
+  <br>
+  <!-- <app-score-card *ngFor="let frame of [{number: 1}, {number: 1}]" [frame]="frame">fghtd</app-score-card> -->
+  <app-score-card *ngFor="let frame of bowling.getTest()" [frame]="frame">fghtd</app-score-card>
 </div>

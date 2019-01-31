@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IScore, ScoreState } from '../models';
+import { IFrame, BallState, IBall } from '../models';
 import { ifError } from 'assert';
 
 @Injectable({
@@ -7,8 +7,9 @@ import { ifError } from 'assert';
 })
 export class BowlingService {
 
-  scores: IScore[] = [];
-  scoreIndex: number;
+  frames: IFrame[] = [];
+  balls: IBall[] = [];
+  frameIndex: number;
   private possiblePins: Array<true> = [true, true, true, true, true, true, true, true, true, true, true];
 
   constructor() {
@@ -16,24 +17,29 @@ export class BowlingService {
   }
 
   private init(): void {
-    this.scoreIndex = 0;
+    this.frameIndex = 0;
+    const tempBall = {
+      pins: undefined,
+      frame: undefined,
+      state: BallState.normal
+    };
     for (let i = 0; i < 10; i++) {
-      this.scores.push({
+      this.frames.push({
         number: i + 1,
         isLast: i === 9,
-        firstBall: null,
-        secondBall: undefined,
-        thirdBall: undefined, // Only for the last score
-        localValue: 0,
-        score: 0,
-        state: ScoreState.normal,
-      } as IScore);
+        firstBall: tempBall,
+        secondBall: tempBall,
+        thirdBall: tempBall, // Only for the last score
+        score: undefined,
+      });
     }
-    console.log(this.scoreIndex);
   }
 
   private updateScores(): void {
+    for (let i = 0; i < this.balls.length; i++) {
+      const ball = this.balls[i];
 
+    }
   }
 
   roll(pins: number): void {
@@ -42,39 +48,47 @@ export class BowlingService {
       return;
     }
     this.possiblePins.splice(0, pins);
-    const currentScore: IScore = this.scores[this.scoreIndex];
-    // console.log(currentScore, this.scoreIndex);
+    const currentFrame: IFrame = this.frames[this.frameIndex];
+    const ball: IBall = { pins: pins, frame: currentFrame, state: BallState.normal };
+    const prevBall = this.balls[this.balls.length - 1];
 
-    /*
-    If the previous score resulted in a spare, add the first roll to that one's current score
-    If the two previous scores were strikes, and the current score is a strike, add 10 two the first score
+    /* Rules
+    If the ball resulted in a strike, the score is 10 plus the score of the next two balls.
+    If the ball resulted in a spare, the score is 10 plus the score of the next ball.
     */
 
-    currentScore.localValue += pins;
-    if (!currentScore.firstBall && currentScore.firstBall !== 0) { // Handle first ball
-      console.log(true);
-      currentScore.firstBall = pins;
+    /*** Handle rolls ***/
+    if (currentFrame.isLast) { // Last frame
+      if (!currentFrame.firstBall) {
 
+      } else if (!currentFrame.secondBall) {
 
-      if (pins === 10) { // Handle strike
-        this.nextScore();
-        currentScore.state = ScoreState.strike;
-        return;
+      } else {
+
       }
-    } else if (!currentScore.secondBall) { // Handle second ball
-      currentScore.secondBall = pins;
-      if (currentScore.firstBall + pins === 10) { // Handle spare
-        currentScore.state = ScoreState.spare;
-        this.nextScore();
-        return;
+    } else { // Normal frame
+      if (!currentFrame.firstBall) { // First ball
+        if (ball.pins === 10) { // Strike
+          // currentFrame.firstBall.state = BallState.strike;
+          ball.state = BallState.strike;
+          currentFrame.firstBall = ball;
+          this.nextFrame();
+        }
+      } else { // Second ball
+        if (prevBall.pins + ball.pins === 10) { // Spare
+          // currentFrame.secondBall.state = BallState.strike;
+          ball.state = BallState.spare;
+          currentFrame.secondBall = ball;
+        }
+        this.nextFrame();
       }
-      this.nextScore();
     }
-    // console.log(currentScore);
+    this.balls.push(ball);
+    // console.log(currentFrame);
   }
 
-  private nextScore(): void {
-    this.scoreIndex++;
+  private nextFrame(): void {
+    this.frameIndex++;
     this.resetPins();
   }
 
@@ -86,7 +100,11 @@ export class BowlingService {
     return [...this.possiblePins];
   }
 
-  getScores(): IScore[] {
-    return this.scores;
+  getFrames(): IFrame[] {
+    return this.frames;
+  }
+
+  getTest(): number[] {
+    return [1, 2, 3, 4, 5, 6];
   }
 }

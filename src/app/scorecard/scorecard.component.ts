@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IScore, ScoreState } from '../models';
+import { IFrame, BallState } from '../models';
 import { TestBed } from '@angular/core/testing';
 
 
@@ -9,20 +9,11 @@ import { TestBed } from '@angular/core/testing';
   styleUrls: ['./scorecard.component.scss']
 })
 export class ScorecardComponent implements OnInit {
-  @Input() number: number;
-  @Input() firstScore: number;
-  @Input() secondScore: number;
-  @Input() we: number;
-  @Input() score: IScore;
-  scoreState = ScoreState;
+  @Input() frame: IFrame;
+  ballState = BallState;
 
   constructor() {
-    this.score = {
-      number: 7,
-      firstBall: 2,
-      secondBall: 2,
-      isLast: false
-    };
+    console.log(this.frame);
   }
 
   ngOnInit() {

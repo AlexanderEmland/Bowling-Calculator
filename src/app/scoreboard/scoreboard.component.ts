@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IScore } from '../models';
+import { IFrame } from '../models';
 import { BowlingService } from '../services/bowling.service';
 
 @Component({
@@ -9,11 +9,10 @@ import { BowlingService } from '../services/bowling.service';
 })
 export class ScoreboardComponent implements OnInit {
 
-  // scores: IScore[];
+  frames: IFrame[] = this.bowling.getFrames();
 
   constructor(private bowling: BowlingService) {
-    // this.scores = bowlingService.getScores();
-    // console.log(this.scores);
+    console.log('Board: ' + JSON.stringify(this.frames));
    }
 
   ngOnInit() {
