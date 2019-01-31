@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IFrame, BallState, IBall } from '../models';
 import { ifError } from 'assert';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class BowlingService {
   frameIndex: number;
   private possiblePins: Array<true> = [true, true, true, true, true, true, true, true, true, true, true];
 
-  constructor() {
+  constructor(private messageService: MessageService) {
     this.init();
   }
 
@@ -55,42 +56,55 @@ export class BowlingService {
     /* Rules
     If the ball resulted in a strike, the score is 10 plus the score of the next two balls.
     If the ball resulted in a spare, the score is 10 plus the score of the next ball.
+    If your first ball in the 10th (last) frame results in a strike, you get two bonus balls.
+
     */
 
     /*** Handle rolls ***/
-    // if (currentFrame.isLast) { // Last frame
-    //   if (!currentFrame.firstBall.pins) {
-
-    //   } else if (!currentFrame.secondBall) {
-
-    //   } else {
-
-    //   }
-    // } else { // Normal frame
-    //console.log(ball, prevBall)
-      if (!currentFrame.firstBall.pins) { // First ball
-        console.log("Throwing first ball in frame " + (this.frameIndex+1));
+    if (currentFrame.isLast) { // Last frame
+      if (!currentFrame.firstBall.pins) {// First ball
+        console.log("Throwing first ball in last frame");
         
         if (ball.pins === 10) { // Strike
-          console.log('%c You got a strike! ', 'background: red; color: yellow');
-
+          console.log('%c You got a strike! ', 'background: black; color: white; font-size: 1.2em; padding: 2px 0 2px 0;');
           ball.state = BallState.strike;
           //console.log(currentFrame.firstBall)
           this.nextFrame();
         }
+
+        currentFrame.firstBall = ball;
+
+      } else if (!currentFrame.secondBall) {
+
+      } else {
+
+      }
+    } else { // Normal frame
+      if (!currentFrame.firstBall.pins && currentFrame.firstBall.pins !== 0) { // First ball
+        console.log("Throwing first ball in frame " + (this.frameIndex+1));
+        
+        if (ball.pins === 10) { // Strike
+          //console.log('%c You got a strike! ', 'background: black; color: white; font-size: 1.2em; padding: 2px 0 2px 0;');
+          this.messageService.sendSpecial("You got a strike!");
+          ball.state = BallState.strike;
+          //console.log(currentFrame.firstBall)
+          this.nextFrame();
+        }
+
         currentFrame.firstBall = ball;
       } else { // Second ball
         console.log("Throwing second ball in frame " + (this.frameIndex+1));
 
         if (prevBall.pins + ball.pins === 10) { // Spare
-          console.log('%c You got a spare! ', 'background: red; color: yellow');
+          console.log('%c You got a spare! ', 'background: black; color: white; font-size: 1.2em; padding: 2px 0 2px 0;');
           
           ball.state = BallState.spare;
-          currentFrame.secondBall = ball;
         }
+
         this.nextFrame();
+        currentFrame.secondBall = ball;
       }
-    
+    }
   
     this.balls.push(ball);
   }
@@ -114,9 +128,5 @@ export class BowlingService {
 
   getFrames(): IFrame[] {
     return this.frames;
-  }
-
-  getTest(): number[] {
-    return [1, 2, 3, 4, 5, 6];
   }
 }
