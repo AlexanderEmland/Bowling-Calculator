@@ -34,6 +34,7 @@ export class BowlingService {
         score: undefined,
       });
     }
+    this.frames[0].active = true;
   }
 
   private updateScores(): void {
@@ -60,7 +61,12 @@ export class BowlingService {
           currentFrame.score += currentFrame.thirdBall.pins;
         }
 
-        if (currentFrame.secondBall.pins && currentFrame.secondBall.state != BallState.spare && !currentFrame.isLast) {
+        // if (currentFrame.secondBall.pins && currentFrame.secondBall.state != BallState.spare && !currentFrame.isLast) {
+        //   currentFrame.calculated = true;
+        // }
+
+        if ((currentFrame.isLast && currentFrame.secondBall.pins && currentFrame.firstBall.state != BallState.strike)
+         || (currentFrame.secondBall.pins && currentFrame.secondBall.state != BallState.spare)) {
           currentFrame.calculated = true;
         }
       }
@@ -69,8 +75,6 @@ export class BowlingService {
         currentFrame.score += prevFrame.score;
       }
     }
-    console.log(this.frames);
-
   }
 
   roll(pins: number): void {
@@ -167,8 +171,9 @@ export class BowlingService {
 
   private nextFrame(): void {
     console.log("Going to next frame");
-
+    this.frames[this.frameIndex].active = false;
     this.frameIndex++;
+    this.frames[this.frameIndex].active = true;
     this.resetPins();
   }
 
