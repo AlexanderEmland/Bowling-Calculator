@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PinsComponent } from './pins.component';
+import { MessageService } from '../services/message.service';
 
 describe('PinsComponent', () => {
   let component: PinsComponent;
@@ -8,9 +9,10 @@ describe('PinsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PinsComponent ]
+      declarations: [PinsComponent],
+      providers: [MessageService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
